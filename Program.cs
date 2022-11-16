@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UserApı;
+using UserApı.Repositories.Concretes;
+using UserApı.Repositories.Interfaces;
+using UserApı.Services.Concretes;
+using UserApı.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +13,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserServices, UserService>();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DbContextBase>(options =>
     options.UseNpgsql(connectionString));
